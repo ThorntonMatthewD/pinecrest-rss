@@ -1,8 +1,10 @@
+mod scraper;
+
 const SERMON_PAGE_URL: &str = "https://www.pinecrestbaptistcharleston.org/from-the-pulpit";
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let response = reqwest::blocking::get(SERMON_PAGE_URL)?;
-    response.text();
-
-    Ok(())
+fn main() {
+    scraper::scrape_page(SERMON_PAGE_URL)
+        .unwrap_or_else(|error| {
+            panic!("Oops! Something went wrong grabbing the site info: {:?}", error)
+        });
 }
