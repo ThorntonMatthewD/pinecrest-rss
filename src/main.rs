@@ -48,6 +48,7 @@ async fn shutdown_signal() {
 }
 
 async fn serve_sermons() -> impl IntoResponse {
+    // Decouple this from occurring on each request - cache results somewhere
     let sermons_found = web_scraper::obtain_sermons().await.unwrap();
 
     println!("Here are the sermons that have been found:\n\n{:#?}", sermons_found);
