@@ -1,4 +1,5 @@
 mod web_scraper;
+mod rss_helper;
 
 use std::net::SocketAddr;
 
@@ -51,13 +52,9 @@ async fn serve_sermons() -> impl IntoResponse {
     // Decouple this from occurring on each request - cache results somewhere
     let sermons_found = web_scraper::obtain_sermons().await.unwrap();
 
+    let channel = rss_helper::create_rss_chanel().await;
+
     println!("Here are the sermons that have been found:\n\n{:#?}", sermons_found);
-
-    let mut channel = rss::Channel::default();
-
-    channel.set_title("Pinecrest Baptist Church - From the Pulpit");
-    channel.set_description("Sermons from Pinecrest Baptist Church");
-    channel.set_link("https://www.pinecrestbaptistcharleston.org/from-the-pulpit");
 
     (StatusCode::OK, channel.to_string())
 }
