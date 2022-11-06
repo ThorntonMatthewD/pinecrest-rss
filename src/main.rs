@@ -21,7 +21,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             panic!("Oops! Something went wrong grabbing the site info: {:?}", error)
         });
 
-    println!("please work lol {result}");
+    let sermons_found = scraper::parse_sermon_links(result).await;
+
+    println!("Here are the sermons that have been found\n\n{:#?}", sermons_found);
 
     Ok(())
 }
