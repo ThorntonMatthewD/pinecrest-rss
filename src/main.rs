@@ -30,7 +30,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .layer(cors);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 8001));
-    println!("Sermons available at  http://{}/sermons.rss", addr);
+    println!("Sermons available at http://{}/sermons.rss", addr);
 
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
