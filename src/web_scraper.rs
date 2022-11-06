@@ -1,14 +1,14 @@
-use reqwest::Error;
 use scraper::{Html, Selector};
-use reqwest::{self, header};
+use serde::{Serialize};
+use reqwest::{self, header, Error};
 
 const SERMON_PAGE_URL: &str = "https://www.pinecrestbaptistcharleston.org/from-the-pulpit";
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct SermonInfo {
   audio_url: String,
   title: String,
-  author: String
+  description: String
 }
 
 pub async fn obtain_sermons() -> Result<Vec<SermonInfo>, Error> {
@@ -51,7 +51,7 @@ async fn parse_sermon_links(page_data: String) -> Vec<SermonInfo> {
       SermonInfo {
         audio_url: String::from(element_value.attr("data-url").unwrap()),
         title: String::from(element_value.attr("data-title").unwrap()),
-        author: String::from(element_value.attr("data-author").unwrap())
+        description: String::from(element_value.attr("data-author").unwrap())
       }
     )
   }

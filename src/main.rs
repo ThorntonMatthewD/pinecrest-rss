@@ -29,7 +29,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .layer(cors);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 8001));
-    println!("listening on http://{}", addr);
+    println!("Sermons available at  http://{}/sermons.rss", addr);
 
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
@@ -43,7 +43,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 async fn shutdown_signal() {
     tokio::signal::ctrl_c()
         .await
-        .expect("Expect shutdown signal handler");
+        .expect("Expect shutdown signal handler: Something didn't go okay");
     println!("\nShutdown signal received - Server is shutting down.");
 }
 
@@ -52,7 +52,13 @@ async fn serve_sermons() -> impl IntoResponse {
 
     println!("Here are the sermons that have been found:\n\n{:#?}", sermons_found);
 
-    (StatusCode::OK,"Sermons have been fetched!")
+    let mut channel = rss::Channel::default();
+
+    channel.set_title("Pinecrest Baptist Church - From the Pulpit");
+    channel.set_description("Sermons from Pinecrest Baptist Church");
+    channel.set_link("https://www.pinecrestbaptistcharleston.org/from-the-pulpit");
+
+    (StatusCode::OK, channel.to_string())
 }
 
 async fn favicon() -> &'static [u8] {
