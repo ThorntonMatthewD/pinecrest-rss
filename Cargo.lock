@@ -1161,6 +1161,7 @@ dependencies = [
  "rss",
  "scraper",
  "tokio",
+ "tower-http",
 ]
 
 [[package]]

@@ -12,3 +12,4 @@ reqwest = { version = "0.11", features = ["blocking"] }
 rss = "2.0"
 scraper = "0.13.0"
 tokio = { version = "1", features = ["full"] }
+tower-http = { version = "^0.3.4", features = ["cors"] }
