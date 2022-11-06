@@ -23,7 +23,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let sermons_found = scraper::parse_sermon_links(result).await;
 
-    println!("Here are the sermons that have been found\n\n{:#?}", sermons_found);
+    println!("Here are the sermons that have been found:\n\n{:#?}", sermons_found);
 
     Ok(())
 }
