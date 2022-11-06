@@ -24,6 +24,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let app = Router::new()
         .route("/sermons.rss", get(serve_sermons))
         .route("/favicon.ico", get(favicon))
+        .route("/metrics", get(|| async move { metric_handle.render() }))
         .layer(prometheus_layer)
         .layer(cors);
 
