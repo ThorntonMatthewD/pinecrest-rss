@@ -6,4 +6,4 @@ A project to scrape sermons from [this web page](https://www.pinecrestbaptistcha
 
 ### Todo
  - [ ] See if I can get somewhat precise release dates from the metadata. All of the sermons seemingly have the recording date either in the title or description.
- - [ ] Cache feed XML, and update it on a timed interval.
+ - [X] ~Cache feed XML, and update it on a timed interval.~ It gets updated on the next request that occurs after 10 minutes has passed.
