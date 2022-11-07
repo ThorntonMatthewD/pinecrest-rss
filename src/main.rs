@@ -10,6 +10,7 @@ use axum::{
     response::IntoResponse
 };
 use axum_prometheus::PrometheusMetricLayer;
+use cached::proc_macro::once;
 use tower_http::{
     cors::Any,
     cors::CorsLayer
@@ -48,17 +49,19 @@ async fn shutdown_signal() {
     println!("\nShutdown signal received - Server is shutting down.");
 }
 
-async fn serve_sermons() -> impl IntoResponse {
-    // Decouple this from occurring on each request - cache results somewhere
+// Result is cached for 10 minutes to prevent spamming requests
+#[once(time=600, option = false, sync_writes = true)]
+async fn get_populated_rss_feed() -> rss::Channel {
     let sermons_found = web_scraper::obtain_sermons().await.unwrap();
-
-    println!("Here are the sermons that have been found:\n\n{:#?}", sermons_found);
 
     let channel = rss_helper::create_rss_chanel();
 
-    let populated_channel = rss_helper::populate_rss_feed(channel, sermons_found).await;
+    rss_helper::populate_rss_feed(channel, sermons_found).await
 
-    (StatusCode::OK, populated_channel.to_string())
+}
+
+async fn serve_sermons() -> impl IntoResponse {
+    (StatusCode::OK, get_populated_rss_feed().await.to_string())
 }
 
 async fn favicon() -> &'static [u8] {
