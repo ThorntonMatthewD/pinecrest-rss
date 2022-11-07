@@ -1,10 +1,9 @@
 use scraper::{Html, Selector};
-use serde::{Serialize};
 use reqwest::{self, header, Error};
 
 const SERMON_PAGE_URL: &str = "https://www.pinecrestbaptistcharleston.org/from-the-pulpit";
 
-#[derive(Debug, Serialize)]
+#[derive(Debug)]
 pub struct SermonInfo {
   pub audio_url: String,
   pub title: String,

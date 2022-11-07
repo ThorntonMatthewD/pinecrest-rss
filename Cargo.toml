@@ -11,8 +11,6 @@ axum-prometheus = "^0.1.0"
 chrono = "0.4.22"
 reqwest = { version = "0.11", features = ["blocking"] }
 rss = "2.0"
-serde = { version = "^1", features = ["derive"] }
-serde-xml-rs = "0.6.0"
 scraper = "0.13.0"
 tokio = { version = "1", features = ["full"] }
 tower-http = { version = "^0.3.4", features = ["cors"] }
