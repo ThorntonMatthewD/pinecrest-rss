@@ -1,6 +1,6 @@
 use super::web_scraper::SermonInfo;
 
-trait RssFeedItem {
+pub trait RssFeedItem {
   fn convert_to_rss_item(&self) -> rss::Item;
 }
 
@@ -45,10 +45,12 @@ pub fn create_rss_chanel() -> rss::Channel {
   channel
 }
 
-pub async fn populate_rss_feed(mut channel: rss::Channel, items_to_add: Vec<SermonInfo>) -> rss::Channel {
+pub async fn populate_rss_feed<T>(mut channel: rss::Channel,items_to_add: Vec<T>) -> rss::Channel where
+  T: RssFeedItem
+{
     let rss_items: Vec<rss::Item> = items_to_add
       .iter()
-      .map(|sermon| sermon.convert_to_rss_item())
+      .map(|item | item.convert_to_rss_item())
       .collect();
 
     channel.set_items(rss_items);
