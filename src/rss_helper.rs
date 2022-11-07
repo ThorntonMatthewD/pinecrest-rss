@@ -19,6 +19,7 @@ impl RssFeedItem for SermonInfo {
     guid.set_value(link_to_media.clone());
     rss_item.set_guid(guid);
 
+    // Try to get the published date from title/description
     let time = chrono::offset::Utc::now();
     rss_item.set_pub_date(time.to_rfc2822());
 
