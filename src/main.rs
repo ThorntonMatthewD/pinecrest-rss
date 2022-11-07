@@ -54,10 +54,10 @@ async fn shutdown_signal() {
 async fn get_populated_rss_feed() -> rss::Channel {
     let sermons_found = web_scraper::obtain_sermons().await.unwrap();
 
-    let channel = rss_helper::create_rss_chanel();
-
-    rss_helper::populate_rss_feed(channel, sermons_found).await
-
+    rss_helper::populate_rss_feed(
+        rss_helper::create_rss_chanel(),
+        sermons_found
+    ).await
 }
 
 async fn serve_sermons() -> impl IntoResponse {
