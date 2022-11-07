@@ -46,7 +46,10 @@ pub fn create_rss_chanel() -> rss::Channel {
   channel
 }
 
-pub async fn populate_rss_feed<T>(mut channel: rss::Channel,items_to_add: Vec<T>) -> rss::Channel where
+pub async fn populate_rss_feed<T>(
+  mut channel: rss::Channel,
+  items_to_add: Vec<T>
+) -> rss::Channel where
   T: RssFeedItem
 {
     let rss_items: Vec<rss::Item> = items_to_add
