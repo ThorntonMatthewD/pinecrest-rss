@@ -8,6 +8,7 @@ impl RssFeedItem for SermonInfo {
   fn convert_to_rss_item(&self) -> rss::Item {
     let mut rss_item = rss::Item::default();
 
+    // Try to get rid of all of the clones
     let link_to_media = self.audio_url.clone();
 
     rss_item.set_title(self.title.clone());
