@@ -37,8 +37,6 @@ async fn scrape_page(client: reqwest::Client, url: &str) -> Result<String, Error
 }
 
 async fn parse_sermon_links(page_data: String) -> Vec<SermonInfo> {
-  println!("I AM CALLED!!!");
-
   let mut sermons = Vec::<SermonInfo>::new();
 
   let parsed_page = Html::parse_document(page_data.as_str());
