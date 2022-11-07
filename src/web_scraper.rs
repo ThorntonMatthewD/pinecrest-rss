@@ -6,9 +6,9 @@ const SERMON_PAGE_URL: &str = "https://www.pinecrestbaptistcharleston.org/from-t
 
 #[derive(Debug, Serialize)]
 pub struct SermonInfo {
-  audio_url: String,
-  title: String,
-  description: String
+  pub audio_url: String,
+  pub title: String,
+  pub description: String
 }
 
 pub async fn obtain_sermons() -> Result<Vec<SermonInfo>, Error> {

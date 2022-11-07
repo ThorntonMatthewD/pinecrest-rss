@@ -52,11 +52,13 @@ async fn serve_sermons() -> impl IntoResponse {
     // Decouple this from occurring on each request - cache results somewhere
     let sermons_found = web_scraper::obtain_sermons().await.unwrap();
 
-    let channel = rss_helper::create_rss_chanel().await;
-
     println!("Here are the sermons that have been found:\n\n{:#?}", sermons_found);
 
-    (StatusCode::OK, channel.to_string())
+    let channel = rss_helper::create_rss_chanel();
+
+    let populated_channel = rss_helper::populate_rss_feed(channel, sermons_found).await;
+
+    (StatusCode::OK, populated_channel.to_string())
 }
 
 async fn favicon() -> &'static [u8] {
