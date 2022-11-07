@@ -4,6 +4,14 @@ A project to scrape sermons from [this web page](https://www.pinecrestbaptistcha
 
 ![gPodder loading the feed](https://user-images.githubusercontent.com/44626690/200210169-aab49826-b6a8-4e72-8879-4e17fd0bc5cf.png)
 
+### Steps to Run:
+```bash
+cargo run
+```
+The RSS feed will be available at http://localhost:8001/sermons.rss
+
+There is also a Prometheus metrics route at http://localhost:8001/metrics
+
 ### Todo
  - [ ] See if I can get somewhat precise release dates from the metadata. All of the sermons seemingly have the recording date either in the title or description.
  - [X] ~Cache feed XML, and update it on a timed interval.~ It gets updated on the next request that occurs after 10 minutes has passed.
