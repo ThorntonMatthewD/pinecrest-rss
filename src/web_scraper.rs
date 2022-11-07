@@ -7,7 +7,8 @@ const SERMON_PAGE_URL: &str = "https://www.pinecrestbaptistcharleston.org/from-t
 pub struct SermonInfo {
   pub audio_url: String,
   pub title: String,
-  pub description: String
+  pub description: String,
+  pub duration: u32
 }
 
 pub async fn obtain_sermons() -> Result<Vec<SermonInfo>, Error> {
@@ -50,7 +51,8 @@ async fn parse_sermon_links(page_data: String) -> Vec<SermonInfo> {
       SermonInfo {
         audio_url: String::from(element_value.attr("data-url").unwrap()),
         title: String::from(element_value.attr("data-title").unwrap()),
-        description: String::from(element_value.attr("data-author").unwrap())
+        description: String::from(element_value.attr("data-author").unwrap()),
+        duration: element_value.attr("data-duration-in-ms").unwrap().parse::<u32>().unwrap_or(0)
       }
     )
   }

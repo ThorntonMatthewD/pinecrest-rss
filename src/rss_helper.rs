@@ -24,12 +24,11 @@ impl RssFeedItem for SermonInfo {
 
     let mut enclosure = rss::Enclosure::default();
     enclosure.set_url(link_to_media.clone());
-    enclosure.set_length("123");
     enclosure.set_mime_type("audio/mpeg");
     rss_item.set_enclosure(enclosure);
 
     let mut extension = rss::extension::itunes::ITunesItemExtension::default();
-    extension.set_duration("1234".to_string());
+    extension.set_duration(format!("{}", self.duration / 1000));
     rss_item.set_itunes_ext(extension);
 
     rss_item
