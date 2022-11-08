@@ -1,6 +1,6 @@
 use reqwest::{header, Error};
 use scraper::{Html, Selector};
-use tracing::{info, Level};
+use tracing::info;
 
 const SERMON_PAGE_URL: &str = "https://www.pinecrestbaptistcharleston.org/from-the-pulpit";
 

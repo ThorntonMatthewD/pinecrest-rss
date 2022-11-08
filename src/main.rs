@@ -15,7 +15,6 @@ use tower_http::{
     cors::Any,
     cors::CorsLayer
 };
-use tracing::info;
 use tracing_subscriber;
 
 #[tokio::main]
