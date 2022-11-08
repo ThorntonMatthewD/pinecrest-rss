@@ -1,5 +1,6 @@
+use reqwest::{header, Error};
 use scraper::{Html, Selector};
-use reqwest::{self, header, Error};
+use tracing::{info, Level};
 
 const SERMON_PAGE_URL: &str = "https://www.pinecrestbaptistcharleston.org/from-the-pulpit";
 
@@ -56,6 +57,11 @@ async fn parse_sermon_links(page_data: String) -> Vec<SermonInfo> {
       }
     )
   }
+
+  info!(
+    number_of_sermons_obtained = sermons.len(),
+    "Sermons have been freshly obtained."
+  );
 
   sermons
 }

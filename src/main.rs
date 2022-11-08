@@ -15,9 +15,13 @@ use tower_http::{
     cors::Any,
     cors::CorsLayer
 };
+use tracing::info;
+use tracing_subscriber;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    tracing_subscriber::fmt::init();
+
     // Let anything through since this only runs locally
     let cors = CorsLayer::new().allow_origin(Any);
 
