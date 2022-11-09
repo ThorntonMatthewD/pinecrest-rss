@@ -1,3 +1,5 @@
+use regex::Regex;
+
 use super::web_scraper::SermonInfo;
 
 pub trait RssFeedItem {
@@ -60,4 +62,10 @@ pub async fn populate_rss_feed<T>(
     channel.set_items(rss_items);
 
     channel
+}
+
+// Use fallback date of 01/011/2000 if a date cannot be
+// found in either the title or description of sermon
+fn extract_date_from_sermon(sermon: SermonInfo) -> String {
+  todo!()
 }
