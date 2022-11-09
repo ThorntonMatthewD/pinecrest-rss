@@ -93,7 +93,7 @@ fn extract_date_from_sermon(sermon: &SermonInfo) -> String{
   };
 
   // Just going to use midnight lol
-  found_date.push_str("T0:0:0");
+  found_date.push_str("T00:00:00");
 
   found_date
 }
