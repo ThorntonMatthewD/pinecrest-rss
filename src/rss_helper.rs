@@ -81,7 +81,7 @@ fn extract_date_from_sermon(sermon: &SermonInfo) -> String{
       .filter_map(|date| date.as_str().parse().ok())
       .collect();
 
-  match matches.len() {
+  let mut found_date = match matches.len() {
     1.. => {
       if let Some(first_match) = matches.into_iter().nth(0) {
         first_match.replace("/", "-")
@@ -90,5 +90,10 @@ fn extract_date_from_sermon(sermon: &SermonInfo) -> String{
       }
     }
     _ => String::from("01-01-2000")
-  }
+  };
+
+  // Just going to use midnight lol
+  found_date.push_str("T0:0:0");
+
+  found_date
 }
