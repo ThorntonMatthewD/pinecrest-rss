@@ -1,3 +1,4 @@
+use lazy_static::lazy_static;
 use regex::Regex;
 
 use super::web_scraper::SermonInfo;
@@ -64,8 +65,30 @@ pub async fn populate_rss_feed<T>(
     channel
 }
 
-// Use fallback date of 01/011/2000 if a date cannot be
+// Use fallback date of 01/01/2000 if a date cannot be
 // found in either the title or description of sermon
-fn extract_date_from_sermon(sermon: SermonInfo) -> String {
-  todo!()
+fn extract_date_from_sermon(sermon: &SermonInfo) -> &str {
+  lazy_static! {
+    static ref RE: Regex = Regex::new(
+      r"[0-9]{1,2}(/|-)[0-9]{1,2}(/|-)[0-9]{2,4}"
+    ).unwrap();
+  };
+
+  let mut combined_sermon_info: String = sermon.title.to_owned();
+  combined_sermon_info.push_str(sermon.description.as_str());
+
+  let matches: Vec<&str> = RE.find_iter(combined_sermon_info.as_str())
+      .filter_map(|date| date.as_str().parse().ok())
+      .collect();
+
+  match matches.len() {
+    1.. => {
+      if let Some(first_match) = matches.into_iter().nth(0) {
+        first_match.replace("/", "-").as_str()
+      } else {
+        unreachable!()
+      }
+    }
+    _ => "01/01/2000"
+  }
 }
