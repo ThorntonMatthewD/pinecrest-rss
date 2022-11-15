@@ -27,13 +27,7 @@ impl RssFeedItem for SermonInfo {
 
 
     let time_str = extract_date_from_sermon(&self);
-    let time = DateTime::parse_from_str(&time_str, "%m-%d-%Y %H:%M:%S %z").unwrap_or_else(|_|
-      DateTime::<FixedOffset>::from_local(
-        NaiveDate::from_ymd(2000, 01, 01).and_hms(0, 0, 0),
-        FixedOffset::east_opt(8 * 60 * 60).unwrap())
-    );
-
-    rss_item.set_pub_date(time.to_rfc2822());
+    rss_item.set_pub_date(time_string_to_datetime(&time_str).to_rfc2822());
 
     let mut enclosure = rss::Enclosure::default();
     enclosure.set_url(link_to_media.clone());
@@ -72,6 +66,14 @@ pub async fn populate_rss_feed<T>(
     channel.set_items(rss_items);
 
     channel
+}
+
+fn time_string_to_datetime(time_str: &String) -> DateTime<FixedOffset> {
+  DateTime::parse_from_str(&time_str, "%m-%d-%Y %H:%M:%S %z").unwrap_or_else(|_|
+    DateTime::<FixedOffset>::from_local(
+      NaiveDate::from_ymd(2000, 01, 01).and_hms(0, 0, 0),
+      FixedOffset::east_opt(8 * 60 * 60).unwrap())
+  )
 }
 
 // Use fallback date of 01/01/2000 if a date cannot be
