@@ -1,5 +1,8 @@
 use lazy_static::lazy_static;
 use regex::Regex;
+use chrono::{DateTime, NaiveDate, NaiveDateTime, NaiveTime, Date};
+use chrono::offset::{Utc, FixedOffset};
+use chrono::format::ParseError;
 
 use super::web_scraper::SermonInfo;
 
@@ -22,8 +25,14 @@ impl RssFeedItem for SermonInfo {
     guid.set_value(link_to_media.clone());
     rss_item.set_guid(guid);
 
-    // Try to get the published date from title/description
-    let time = chrono::offset::Utc::now();
+
+    let time_str = extract_date_from_sermon(&self);
+    let time = DateTime::parse_from_str(&time_str, "%m-%d-%Y %H:%M:%S %z").unwrap_or_else(|_|
+      DateTime::<FixedOffset>::from_local(
+        NaiveDate::from_ymd(2000, 01, 01).and_hms(0, 0, 0),
+        FixedOffset::east_opt(8 * 60 * 60).unwrap())
+    );
+
     rss_item.set_pub_date(time.to_rfc2822());
 
     let mut enclosure = rss::Enclosure::default();
@@ -93,7 +102,7 @@ fn extract_date_from_sermon(sermon: &SermonInfo) -> String{
   };
 
   // Just going to use midnight lol
-  found_date.push_str("T00:00:00");
+  found_date.push_str(" 00:00:00 -0500");
 
   found_date
 }
