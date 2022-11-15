@@ -13,7 +13,8 @@ The RSS feed will be available at http://localhost:8001/sermons.rss
 There is also a Prometheus metrics route at http://localhost:8001/metrics
 
 ### Todo
- - [X] See if I can get somewhat precise release dates from the metadata. All of the sermons seemingly have the recording date either in the title or description.
+ - [X] ~See if I can get somewhat precise release dates from the metadata. All of the sermons seemingly have the recording date either in the title or description.~ Dates fallback to January 01, 2000 EST if they cannot be located in either the sermon title or description, but otherwise they should be *OK*.
  - [X] ~Cache feed XML, and update it on a timed interval.~ It gets updated on the next request that occurs after 10 minutes has passed.
+ - [ ] Determine if datetimes are -0400 (EDT) or -0500 (EST) depedening on date.
  - [ ] Tests!
  - [ ] Perhaps organize the modules a bit better.
