@@ -1,8 +1,7 @@
 use lazy_static::lazy_static;
 use regex::Regex;
-use chrono::{DateTime, NaiveDate, NaiveDateTime, NaiveTime, Date};
-use chrono::offset::{Utc, FixedOffset};
-use chrono::format::ParseError;
+use chrono::{DateTime, NaiveDate};
+use chrono::offset::FixedOffset;
 
 use super::web_scraper::SermonInfo;
 
