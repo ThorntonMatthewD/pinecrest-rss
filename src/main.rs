@@ -1,21 +1,12 @@
-mod web_scraper;
 mod rss_helper;
+mod web_scraper;
 
 use std::net::SocketAddr;
 
-use axum::{
-    http::StatusCode,
-    routing::get,
-    Router,
-    response::IntoResponse
-};
+use axum::{http::StatusCode, response::IntoResponse, routing::get, Router};
 use axum_prometheus::PrometheusMetricLayer;
 use cached::proc_macro::once;
-use tower_http::{
-    cors::Any,
-    cors::CorsLayer
-};
-use tracing_subscriber;
+use tower_http::{cors::Any, cors::CorsLayer};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -53,14 +44,11 @@ async fn shutdown_signal() {
 }
 
 // Result is cached for 10 minutes to prevent spamming requests
-#[once(time=600, option = false, sync_writes = true)]
+#[once(time = 600, option = false, sync_writes = true)]
 async fn get_populated_rss_feed() -> rss::Channel {
     let sermons_found = web_scraper::obtain_sermons().await.unwrap();
 
-    rss_helper::populate_rss_feed(
-        rss_helper::create_rss_chanel(),
-        sermons_found
-    ).await
+    rss_helper::populate_rss_feed(rss_helper::create_rss_chanel(), sermons_found).await
 }
 
 async fn serve_sermons() -> impl IntoResponse {
